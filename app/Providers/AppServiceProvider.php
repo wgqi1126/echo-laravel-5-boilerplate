@@ -80,6 +80,12 @@ class AppServiceProvider extends ServiceProvider
              * Load third party local aliases
              */
             $loader->alias('Debugbar', \Barryvdh\Debugbar\Facade::class);
+
+            /*
+             * IDE helper
+             */
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
+
     }
 }

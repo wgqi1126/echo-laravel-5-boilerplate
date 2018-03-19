@@ -68,6 +68,10 @@ MIT: [http://anthony.mit-license.org](http://anthony.mit-license.org)
     
     `php artisan key:generate`
     
+    链接存储目录
+    
+    `php artisan storage:link`
+    
     执行数据库迁移
     
     `php artisan migrate`
@@ -93,5 +97,69 @@ MIT: [http://anthony.mit-license.org](http://anthony.mit-license.org)
     监控静态资源变化并编译
     
     `npm run watch`
+    
+    登录后台
+    
+    地址：[http://localhost:8000/login](http://localhost:8000/login)  
+    管理员：admin@admin.com/1234  
+    用户：user@user.com/1234
    
-   
+1.  安装并设置ide助手，便于代码编写和提示
+
+    安装
+    
+    ```bash
+    composer require --dev barryvdh/laravel-ide-helper
+    composer require --dev doctrine/dbal
+    ```
+    
+    生成配置
+    
+    `php artisan vendor:publish --provider="Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider" --tag=config`
+    
+    添加调用
+    
+    ```php
+    # app/Providers/AppServiceProvider.php
+    public function register()
+    {
+        # 添加内容开始
+        if ($this->app->environment() !== 'production') {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
+        # 添加内容结束
+    }
+    ```
+    
+    修改配置
+    
+    ```php
+    # config/ide-helper.php
+    'include_fluent' => true,
+    ```
+    
+    添加辅助脚本
+    
+    ```bash
+    # ide-helper.sh
+    #!/usr/bin/env bash
+    
+    cd $(dirname $0)
+    
+    php artisan ide-helper:generate
+    php artisan ide-helper:meta
+    php artisan ide-helper:models -N
+    ```
+    
+    添加git忽略文件
+    
+    ```
+    # .gitignore
+    _ide_helper_models.php
+    ```
+    
+    生成ide辅助文件
+    
+    `sh ide-helper.sh`
+    
+    
